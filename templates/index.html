@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cat and dog detection</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+</head>
+
+<body>
+
+<h1>Cat and Dog Detection using <span>Convolutional Neural Networks (Classification model)</span></h1>
+
+<div id="debug" style="margin:65px; margin-top:100px;">
+    <input type="file" id="uploadButton" accept="images/*">
+    <br>
+    <span style="color: #4DAF7C; font-weight: 400; font-family: 'Open Sans', Helvetica;	">Select the image to display in the box.</span>
+    <br>
+    <br>
+    <img id="img" height="400" width="400">
+</div>
+
+
+<div style="margin-left:210px; margin-top:570px; float:left; position:absolute;">
+
+    <a href="#" class="myButton"><span
+            style=" font-weight: 400; font-family: 'Open Sans', Helvetica;	"> Predict </span></a>
+</div>
+<div>
+    <h1 style="margin-left:50px; margin-top:300px;"><b>Predicted Output:</b></h1>
+    <h1 id="result" style="margin-left:600px; margin-top:300px;"><span> </span></h1>
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<script type="text/javascript">
+
+    var img;
+    function readFile() {
+        if (this.files && this.files[0]) {
+            var FR = new FileReader();
+            FR.addEventListener("load", function (e) {
+                document.getElementById("img").src = e.target.result;
+                img = e.target.result;
+            });
+            FR.readAsDataURL(this.files[0]);
+        }
+    }
+
+    document.getElementById("uploadButton").addEventListener("change", readFile);
+
+    $(".myButton").click(function () {
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        var canvasObj = document.getElementById("canvas");
+        $.ajax({
+            type: "POST",
+            url: $SCRIPT_ROOT + "/predict/",
+            data: img,
+            success: function (data) {
+                $('#result').text('' + data);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+virtualenv
+.idea/
+__pycache__
+dataset/
+.DS_Store
+*.pyc
+

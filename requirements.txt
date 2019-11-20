@@ -1,0 +1,7 @@
+Flask == 0.11.1
+sklearn
+keras
+numpy
+h5py
+pandas
+tqdm
